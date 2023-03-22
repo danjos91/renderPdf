@@ -1,13 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ru.itfb.gzpb</groupId>
-  <artifactId>service-desk</artifactId>
-  <version>72.0.0</version>
-  <packaging>war</packaging>
+  <groupId>org.example</groupId>
+  <artifactId>pdf-reader</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>pdf-reader</name>
+  <url>http://maven.apache.org</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,11 +23,11 @@
     <camunda.version>7.9.0</camunda.version>
     <camunda-reactor.version>2.1.1</camunda-reactor.version>
     <groovy.version>2.4.21</groovy.version>
-    <liquibase.version>4.19.0</liquibase.version>
+    <liquibase.version>3.6.3</liquibase.version>
     <commons.io.version>2.6</commons.io.version>
     <httpclient.version>4.5.7</httpclient.version>
     <skipTests>true</skipTests>
-    <spring-cloud.version>2021.0.5</spring-cloud.version>
+    <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
     <main.basedir>${basedir}/lib</main.basedir>
     <templ4docx.version>2.0.0</templ4docx.version>
     <guava.version>31.0.1-jre</guava.version>
@@ -34,9 +35,6 @@
     <tika.version>1.26</tika.version>
   </properties>
 
-  <scm>
-    <developerConnection>scm:git:https://gitlab.itfbgroup.ru/gazprombank/service-desk.git</developerConnection>
-  </scm>
 
   <repositories>
     <repository>
@@ -52,7 +50,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.6.2</version>
+    <version>2.1.18.RELEASE</version>
   </parent>
 
   <dependencies>
@@ -61,12 +59,37 @@
     <!--            <groupId>com.fasterxml.jackson.datatype</groupId>-->
     <!--            <artifactId>jackson-datatype-jsr310</artifactId>-->
     <!--        </dependency>-->
-    <!-- https://mvnrepository.com/artifact/com.ironsoftware/ironpdf-engine-windows-x64 -->
 <!--    <dependency>-->
 <!--      <groupId>com.ironsoftware</groupId>-->
-<!--      <artifactId>org.slf4j</artifactId>-->
-<!--      <version>2.0.5</version>-->
+<!--      <artifactId>ironpdf</artifactId>-->
+<!--      <version>2022.12.0</version>-->
+<!--      <scope>system</scope>-->
+<!--      <systemPath>${project.basedir}/src/main/resources/ironpdf-2022.12.0-fat-jar.jar</systemPath>-->
 <!--    </dependency>-->
+    <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+    <dependency>
+      <groupId>com.microsoft.playwright</groupId>
+      <artifactId>playwright</artifactId>
+      <version>1.28.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.13.1</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.xhtmlrenderer/flying-saucer-core -->
+    <dependency>
+      <groupId>org.xhtmlrenderer</groupId>
+      <artifactId>flying-saucer-core</artifactId>
+      <version>9.1.20</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.xhtmlrenderer/flying-saucer-pdf-openpdf -->
+    <dependency>
+      <groupId>org.xhtmlrenderer</groupId>
+      <artifactId>flying-saucer-pdf-openpdf</artifactId>
+      <version>9.1.20</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.chromium.net/cronet-embedded -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
@@ -126,12 +149,6 @@
     <dependency>
       <groupId>io.github.openfeign</groupId>
       <artifactId>feign-httpclient</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.ironsoftware</groupId>
-      <artifactId>ironpdf</artifactId>
-      <version>2023.1.1</version>
     </dependency>
 
     <dependency>
@@ -401,10 +418,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.6.1</version>
         <configuration>
-          <source>11</source>
-          <target>11</target>
+          <source>1.8</source>
+          <target>1.8</target>
           <annotationProcessorPaths>
             <path>
               <groupId>org.projectlombok</groupId>
@@ -419,11 +436,11 @@
           </annotationProcessorPaths>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>pl.project13.maven</groupId>
-        <artifactId>git-commit-id-plugin</artifactId>
-        <version>2.2.5</version>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>pl.project13.maven</groupId>-->
+<!--        <artifactId>git-commit-id-plugin</artifactId>-->
+<!--        <version>2.2.5</version>-->
+<!--      </plugin>-->
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
@@ -438,43 +455,6 @@
             </resource>
           </webResources>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.1.2</version>
-        <configuration>
-          <configLocation>checkstyle.xml</configLocation>
-          <sourceDirectories>
-            <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
-          </sourceDirectories>
-          <testSourceDirectories>
-            <testSourceDirectory>${project.build.testSourceDirectory}</testSourceDirectory>
-          </testSourceDirectories>
-          <encoding>UTF-8</encoding>
-          <consoleOutput>true</consoleOutput>
-          <logViolationsToConsole>false</logViolationsToConsole>
-          <maxAllowedViolations>3919</maxAllowedViolations><!--reduce me-->
-          <failOnViolation>true</failOnViolation>
-          <linkXRef>false</linkXRef>
-          <violationSeverity>warning</violationSeverity>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>com.puppycrawl.tools</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>8.42</version>
-          </dependency>
-        </dependencies>
-        <executions>
-          <execution>
-            <id>checkstyle-validate</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
